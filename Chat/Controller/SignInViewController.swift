@@ -46,9 +46,14 @@ class SignInViewController: UIViewController {
 
                     if user != nil{
                         let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! TabBarController
-                        self.present(vc, animated: false)
-
-
+                        // setup chat listener
+                        ChatManager.shared.listen {
+                            DispatchQueue.main.async {
+                                self.present(vc, animated: false)
+                            }
+                            
+                        }
+                        
                     }else{
                         if let Error = error{
                             let alert = UIAlertController.init(title: "Error", message: "\(Error.localizedDescription)", preferredStyle: .alert)

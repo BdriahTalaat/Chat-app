@@ -12,5 +12,5 @@ struct ChatUser{
     let uid : String
     let email : String
     let profilrImage : String
-    let fulName : String
+    let fullName : String
 }

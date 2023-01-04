@@ -57,7 +57,13 @@ class SignUpViewController: UIViewController {
                             
                             self.persisImageToStorage()
                             let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! TabBarController
-                            self.present(vc, animated: false)
+                            // setup chat listener
+                            ChatManager.shared.listen {
+                                DispatchQueue.main.async {
+                                    self.present(vc, animated: false)
+                                }
+                                
+                            }
                             
                         }else{
                             if let Error = error{

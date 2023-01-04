@@ -15,11 +15,11 @@ struct ChatMessage /*: Identifiable*/{
     //var id : String { documentId }
     
     
-//    init(/*documentId:String ,*/ data:[String:Any]){
-//        self.fromId = data[FirebaseConestants.fromId] as? String ?? ""
-//        self.toId = data[FirebaseConestants.toId] as? String ?? ""
-//        self.text = data[FirebaseConestants.text] as? String ?? ""
-//        //self.documentId = documentId
-//    }
+    init(/*documentId:String ,*/ data:[String:Any]){
+        self.fromId = data[FirebaseConestants.fromId] as? String ?? ""
+        self.toId = data[FirebaseConestants.toId] as? String ?? ""
+        self.text = data[FirebaseConestants.text] as? String ?? ""
+        //self.documentId = documentId
+    }
 
 }

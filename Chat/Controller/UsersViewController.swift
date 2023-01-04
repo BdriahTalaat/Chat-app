@@ -25,15 +25,18 @@ class UsersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
       
-        listUsersTableView.reloadData()
+        
         listUsersTableView.dataSource = self
         listUsersTableView.delegate = self
+        
+        listUsersTableView.reloadData()
         
         getData()
         userImage.setImageCircler(image: userImage)
         newView.setCircler(value: 2, View: newView)
         newView.setShadow(View: newView, shadowRadius: 8, shadowOpacity: 0.5, shadowOffsetWidth: 2, shadowOffsetHeight: 2)
 
+        
     }
     
     //MARK: ACTIONS
@@ -64,28 +67,63 @@ class UsersViewController: UIViewController {
             let email = data["email"] as? String ?? ""
             let profilrImage = data["profile Image URL"] as? String ?? ""
             let fulName = data["Full name"] as? String ?? ""
-            let chatUser = ChatUser.init(uid: uid, email: email, profilrImage: profilrImage, fulName: fulName)
+            let chatUser = ChatUser.init(uid: uid, email: email, profilrImage: profilrImage, fullName: fulName)
             userNameLabel.text = fulName
             userImage.setImageFromStringURL(stringURL: profilrImage)
-            print(fulName)
 
         }
 
+    }
+    
+    func fetchAllUser(){
+        
+        FirebaseManager.shared.firestore.collection("user").getDocuments() { [self] (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                
+                querySnapshot?.documents.forEach({ snapshot in
+                    let data = snapshot.data()
+                    
+                    let uid = data["uid"] as? String ?? ""
+                    let email = data["email"] as? String ?? ""
+                    let profilrImage = data["profile Image URL"] as? String ?? ""
+                    let fulName = data["Full name"] as? String ?? ""
+                    let chatUser = ChatUser.init(uid: uid, email: email, profilrImage: profilrImage, fullName: fulName)
+                    
+                    self.user.append(chatUser)
+                    
+                })
+
+            }
+        }
+        
     }
 }
 //MARK: EXTENTION
 extension UsersViewController : UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        user.count
+        
+        return ChatManager.shared.conversations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as! UserTableViewCell
-        let data = user[indexPath.row]
+        let data = ChatManager.shared.conversations[indexPath.row]
+        var otherID: String = "nil"
         
-        cell.nameLabel.text = data.fulName
-        cell.userImage.setImageFromStringURL(stringURL: data.profilrImage)
-        cell.userImage.setImageCircler(image: cell.userImage)
+        if let userID = FirebaseManager.shared.auth.currentUser?.uid {
+            otherID = data.users.first(where: { $0 != userID })!
+            
+        }
+        
+        
+        
+        
+        //cell.nameLabel.text = d
+        cell.nameLabel.text = otherID
+        //cell.userImage.setImageFromStringURL(stringURL: data.profilrImage)
+        //cell.userImage.setImageCircler(image: cell.userImage)
         return cell
     }
     
@@ -94,8 +132,17 @@ extension UsersViewController : UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
-        vc.chatUser = user[indexPath.row]
-        present(vc, animated: false)
+        let conversation = ChatManager.shared.conversations[indexPath.row]
+        let userID = FirebaseManager.shared.auth.currentUser!.uid
+        let otherID = conversation.users.first(where: { $0 != userID })!
+        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
+        //vc.chatUser = selectedIndex
+        vc.conversation = conversation
+        
+        DispatchQueue.main.async {
+            self.present(vc, animated: false)
+        }
+        
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MainViewController: UIViewController {
 
@@ -16,6 +17,13 @@ class MainViewController: UIViewController {
     //MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
+        if Auth.auth().currentUser != nil {
+            let vc = storyboard?.instantiateViewController(withIdentifier: "UsersViewController") as! UsersViewController
+            present(vc, animated: false)
+        }
         
         signUpView.setCircler(value: 4, View: signUpView)
         signUpView.setShadow(View: signUpView, shadowRadius: 5, shadowOpacity: 0.4, shadowOffsetWidth: 4, shadowOffsetHeight: 4)

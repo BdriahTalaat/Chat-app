@@ -46,7 +46,7 @@ class NewMessageViewController: UIViewController {
                     let email = data["email"] as? String ?? ""
                     let profilrImage = data["profile Image URL"] as? String ?? ""
                     let fulName = data["Full name"] as? String ?? ""
-                    let chatUser = ChatUser.init(uid: uid, email: email, profilrImage: profilrImage, fulName: fulName)
+                    let chatUser = ChatUser.init(uid: uid, email: email, profilrImage: profilrImage, fullName: fulName)
                     
                     self.users.append(chatUser)
                     
@@ -69,7 +69,7 @@ extension NewMessageViewController : UITableViewDelegate,UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewUserTableViewCell", for: indexPath) as! NewUserTableViewCell
         var data = users[indexPath.row]
 
-        cell.nameLabel.text = data.fulName
+        cell.nameLabel.text = data.fullName
         cell.userImage.setImageFromStringURL(stringURL: data.profilrImage)
         cell.userImage.setImageCircler(image: cell.userImage)
         return cell
@@ -81,8 +81,17 @@ extension NewMessageViewController : UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedIndex = users[indexPath.row]
         
-        let vc = storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
-        vc.chatUser = selectedIndex
-        present(vc, animated: false)
+        ChatManager.shared.create(withID: selectedIndex.uid) {
+            let conversation = ChatManager.shared.conversations.first(where: { $0.users.contains(selectedIndex.uid) })
+            
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
+            
+            vc.conversation = conversation
+            DispatchQueue.main.async {
+                self.present(vc, animated: false)
+            }
+            
+        }
+        
     }
 }
