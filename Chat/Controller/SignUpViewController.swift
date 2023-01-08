@@ -154,16 +154,18 @@ class SignUpViewController: UIViewController {
     /// allow store user information in firebase storage
     func storeUserInformation(imageProfileURL:URL){
       
-        guard let uid = FirebaseManager.shared.auth.currentUser?.uid else{ return }
+        guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
+        guard let email = self.emailTextField.text else { return }
+        guard let fullName = self.nameTextField.text else { return }
         
-        let userData = ["email" : self.emailTextField.text , "uid" : uid , "profile Image URL" : imageProfileURL.absoluteString , "Full name" : self.nameTextField.text , "password" : self.paswordTextField.text] as [String : Any]
+        let userData = ChatUser(uid: uid, email: email, profileImage: imageProfileURL.absoluteString, fullName: fullName)
         
-        FirebaseManager.shared.firestore.collection("user").document(uid).setData(userData){ error in
-            if let error = error{
-                print(error)
-            }
-            print("success")
+        do {
+            _ = try FirebaseManager.shared.firestore.collection("user").addDocument(from: userData)
+        } catch {
+            fatalError(error.localizedDescription)
         }
+        
     }
     
 }

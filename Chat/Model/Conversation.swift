@@ -26,3 +26,15 @@ struct Message: Identifiable, Codable {
     let timestamp: Date
 }
 
+//struct Users {
+//    let me : ChatUser
+//    let other : ChatUser
+//}
+//
+//struct ChatUser {
+//    let uid : String
+//    let email : String
+//    let profilrImage : String
+//    let fullName : String
+//}
+

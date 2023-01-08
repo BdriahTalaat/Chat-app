@@ -19,6 +19,14 @@ extension UIView{
         View.layer.shadowRadius = shadowRadius
         View.layer.shadowOpacity = shadowOpacity
     }
+    
+    func viewConstraint(View:UIView){
+        
+        View.translatesAutoresizingMaskIntoConstraints = false
+        View.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: 330).isActive = true
+        View.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8).isActive = true
+        View.backgroundColor = .darkGray
+    }
 }
 
 extension UITextView {
@@ -26,3 +34,11 @@ extension UITextView {
         View.layer.cornerRadius = View.frame.height / value
     }
 }
+//func messageFromOther(){
+//
+//    messageTimeLabel.isHidden = true
+//    messageView.translatesAutoresizingMaskIntoConstraints = false
+//    messageView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: 330).isActive = true
+//    messageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8).isActive = true
+//    messageView.backgroundColor = .darkGray
+//}

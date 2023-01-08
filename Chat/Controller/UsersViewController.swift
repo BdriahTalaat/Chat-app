@@ -14,6 +14,7 @@ class UsersViewController: UIViewController {
     //MARK: OOUTLETS
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userImage: UIImageView!
+    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var listUsersTableView: UITableView!
     @IBOutlet weak var newView: UIView!
     
@@ -31,7 +32,14 @@ class UsersViewController: UIViewController {
         
         listUsersTableView.reloadData()
         
-        getData()
+        //getData()
+        
+        guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
+        let userData = ChatManager.shared.users.first(where: { $0.uid == uid })
+       
+        userImage.setImageFromStringURL(stringURL: userData!.profileImage)
+        userNameLabel.text = userData!.fullName
+        
         userImage.setImageCircler(image: userImage)
         newView.setCircler(value: 2, View: newView)
         newView.setShadow(View: newView, shadowRadius: 8, shadowOpacity: 0.5, shadowOffsetWidth: 2, shadowOffsetHeight: 2)
@@ -67,7 +75,7 @@ class UsersViewController: UIViewController {
             let email = data["email"] as? String ?? ""
             let profilrImage = data["profile Image URL"] as? String ?? ""
             let fulName = data["Full name"] as? String ?? ""
-            let chatUser = ChatUser.init(uid: uid, email: email, profilrImage: profilrImage, fullName: fulName)
+            let chatUser = ChatUser(uid: uid, email: email, profileImage: profilrImage, fullName: fulName)
             userNameLabel.text = fulName
             userImage.setImageFromStringURL(stringURL: profilrImage)
 
@@ -89,7 +97,7 @@ class UsersViewController: UIViewController {
                     let email = data["email"] as? String ?? ""
                     let profilrImage = data["profile Image URL"] as? String ?? ""
                     let fulName = data["Full name"] as? String ?? ""
-                    let chatUser = ChatUser.init(uid: uid, email: email, profilrImage: profilrImage, fullName: fulName)
+                    let chatUser = ChatUser(uid: uid, email: email, profileImage: profilrImage, fullName: fulName)
                     
                     self.user.append(chatUser)
                     
@@ -110,20 +118,15 @@ extension UsersViewController : UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as! UserTableViewCell
         let data = ChatManager.shared.conversations[indexPath.row]
-        var otherID: String = "nil"
+        let otherID: String = data.users.filter { $0 != FirebaseManager.shared.auth.currentUser!.uid }.first!
+        var userData: ChatUser? = ChatManager.shared.getUserData(uid: otherID)
+        let today = Date()
         
-        if let userID = FirebaseManager.shared.auth.currentUser?.uid {
-            otherID = data.users.first(where: { $0 != userID })!
-            
-        }
+        cell.dateLabel.text = "\(Calendar.current.component(.hour, from: today)) : \(Calendar.current.component(.minute, from: today)) "
+        cell.nameLabel.text = userData?.fullName ?? "nil"
+        cell.userImage.setImageFromStringURL(stringURL: userData!.profileImage)
+        cell.userImage.setImageCircler(image: cell.userImage)
         
-        
-        
-        
-        //cell.nameLabel.text = d
-        cell.nameLabel.text = otherID
-        //cell.userImage.setImageFromStringURL(stringURL: data.profilrImage)
-        //cell.userImage.setImageCircler(image: cell.userImage)
         return cell
     }
     

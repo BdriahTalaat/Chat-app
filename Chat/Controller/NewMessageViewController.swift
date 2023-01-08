@@ -13,7 +13,7 @@ class NewMessageViewController: UIViewController {
     @IBOutlet weak var usersTableView: UITableView!
     
     //MARK: VARIABLE
-    var users = [ChatUser]()
+    //var users = [ChatUser]()
     
     //MARK: LIFE CYCLE
     override func viewDidLoad() {
@@ -22,7 +22,7 @@ class NewMessageViewController: UIViewController {
         usersTableView.delegate = self
         usersTableView.dataSource = self
        
-        fetchAllUser()
+        //fetchAllUser()
     }
     
     //MARK: ACYIONS
@@ -31,46 +31,24 @@ class NewMessageViewController: UIViewController {
     }
     //MARK: FUNCTIONS
     
-    /// allow fetch all user from firebase
-    func fetchAllUser(){
-        
-        FirebaseManager.shared.firestore.collection("user").getDocuments() { [self] (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                
-                querySnapshot?.documents.forEach({ snapshot in
-                    let data = snapshot.data()
-                    
-                    let uid = data["uid"] as? String ?? ""
-                    let email = data["email"] as? String ?? ""
-                    let profilrImage = data["profile Image URL"] as? String ?? ""
-                    let fulName = data["Full name"] as? String ?? ""
-                    let chatUser = ChatUser.init(uid: uid, email: email, profilrImage: profilrImage, fullName: fulName)
-                    
-                    self.users.append(chatUser)
-                    
-                })
-                usersTableView.reloadData()
-
-            }
-        }
-        
-    }
+    
 }
 //MARK: EXTENTION
 extension NewMessageViewController : UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return users.count
+        guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return 0 }
+        return ChatManager.shared.users.filter { $0.uid != uid }.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewUserTableViewCell", for: indexPath) as! NewUserTableViewCell
-        var data = users[indexPath.row]
+        let uid = FirebaseManager.shared.auth.currentUser!.uid
+        var data = ChatManager.shared.users.filter { $0.uid != uid }[indexPath.row]
 
+        //var userData: ChatUser? = ChatManager.shared.getUserData(uid: data.uid)
+        
         cell.nameLabel.text = data.fullName
-        cell.userImage.setImageFromStringURL(stringURL: data.profilrImage)
+        cell.userImage.setImageFromStringURL(stringURL: data.profileImage)
         cell.userImage.setImageCircler(image: cell.userImage)
         return cell
     }
@@ -79,7 +57,7 @@ extension NewMessageViewController : UITableViewDelegate,UITableViewDataSource{
         return 90
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedIndex = users[indexPath.row]
+        let selectedIndex = ChatManager.shared.users[indexPath.row]
         
         ChatManager.shared.create(withID: selectedIndex.uid) {
             let conversation = ChatManager.shared.conversations.first(where: { $0.users.contains(selectedIndex.uid) })

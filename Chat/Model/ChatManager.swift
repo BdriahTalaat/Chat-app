@@ -12,7 +12,9 @@ final class ChatManager {
     
     static let shared = ChatManager()
     
+    
     var conversations: [Conversation] = []
+    var users: [ChatUser] = []
     var didUpdateConversation: () -> () = {}
     
     public func create(withID: String, _ completion: @escaping () -> ()) {
@@ -22,7 +24,7 @@ final class ChatManager {
             do {
                 let snapshot = try await FirebaseManager.shared.firestore.collection("conversations")
                     .whereField("users", isEqualTo: [userID, withID]).getDocuments()
-                print("^^^", snapshot.count)
+                //print("^^^", snapshot.count)
                 if snapshot.count > 0 {
                     // conversation exists
                     return
@@ -39,14 +41,67 @@ final class ChatManager {
         
     }
     
+    public func getUsers() async {
+        do {
+            guard let userID = FirebaseManager.shared.auth.currentUser?.uid else { return }
+            let snapshot = try await FirebaseManager.shared.firestore.collection("user").getDocuments(source: .server)
+            self.users = try snapshot.documents.map { try $0.data(as: ChatUser.self) }
+        } catch {
+             print(error.localizedDescription)
+        }
+    }
+    
+    public func getUserData(uid: String) -> ChatUser? {
+        if let user = users.first(where: { $0.uid == uid }) {
+            return user
+        }
+        return nil
+    }
+    
+    public func getUserData(uid: String) async -> ChatUser? {
+        if let user = users.first(where: { $0.uid == uid }) {
+            return user
+        } else {
+            do {
+                print("@@@", uid)
+                let snapshot = try await FirebaseManager.shared.firestore.collection("user")
+                    .whereField("uid", isEqualTo: uid).getDocuments(source: .server)
+                if let user = try snapshot.documents.first?.data(as: ChatUser.self) {
+                    return user
+                }
+            } catch {
+                fatalError(error.localizedDescription)
+            }
+        }
+        return nil
+    }
+    
     public func listen(_ completion: @escaping () -> ()) {
         guard let userID = FirebaseManager.shared.auth.currentUser?.uid else { return }
         
         Task {
+            await getUsers()
             do {
                 let snapshot = try await FirebaseManager.shared.firestore.collection("conversations")
                     .whereField("users", arrayContains: userID).getDocuments(source: .server)
                 self.conversations = try snapshot.documents.map { try $0.data(as: Conversation.self) }
+                
+                var usersIDs: [String] = []
+                conversations.forEach { conversation in
+                    if let uid = conversation.users.filter ({ $0 != userID }).first {
+                        if !usersIDs.contains(uid) {
+                            usersIDs.append(uid)
+                        }
+                    }
+                }
+                
+                for uid in usersIDs {
+                    if let user = await getUserData(uid: uid) {
+                        if !self.users.contains(where: { $0.uid == user.uid }) {
+                            self.users.append(user)
+                        }
+                    }
+                }
                 
                 // listen to messages
                 
@@ -55,8 +110,10 @@ final class ChatManager {
                     FirebaseManager.shared.firestore.collection("conversations").document(docID).collection("messages").addSnapshotListener { snapshot, error in
                         if let documents = snapshot?.documents {
                             do {
+                                
                                 var messages: [Message] = try documents.map { try $0.data(as: Message.self) }
-                                messages.sort { $0.timestamp > $1.timestamp }
+                                messages.sort { $0.timestamp < $1.timestamp }
+                                
                                 if let index = self.conversations.firstIndex(where: { $0.id == conversation.id }) {
                                     self.conversations[index].messages = messages
                                     self.didUpdateConversation()

@@ -11,6 +11,7 @@ class UserTableViewCell: UITableViewCell {
 
     //MARK: OUTLETS
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var userImage: UIImageView!
    
     //MARK: LIFE CICLE

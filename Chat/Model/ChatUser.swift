@@ -8,9 +8,9 @@
 import Foundation
 import UIKit
 
-struct ChatUser{
+struct ChatUser : Codable {
     let uid : String
     let email : String
-    let profilrImage : String
+    let profileImage : String
     let fullName : String
 }
