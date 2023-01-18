@@ -23,17 +23,65 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "224B7CC1-817E-4E94-AB5D-942F1F9DBF58"
+            uuid = "DF3FA84B-E8EA-42C2-A9A9-04DF1E5CE98E"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Chat/Model/ChatUser.swift"
+            filePath = "Chat/Model/ChatManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "13"
-            endingLineNumber = "13"
-            landmarkName = "ChatUser"
-            landmarkType = "14">
+            startingLineNumber = "23"
+            endingLineNumber = "23"
+            landmarkName = "delete(id:_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "DF3FA84B-E8EA-42C2-A9A9-04DF1E5CE98E - 89cab6c96fcf06e6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Chat.ChatManager.delete(id: Swift.Int, _: () -&gt; ()) -&gt; ()"
+                  moduleName = "Chat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bdriahtalaat/Desktop/my%20programs/Xcode/Chat/Chat/Model/ChatManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "23"
+                  endingLineNumber = "23"
+                  offsetFromSymbolStart = "352">
+               </Location>
+               <Location
+                  uuid = "DF3FA84B-E8EA-42C2-A9A9-04DF1E5CE98E - 9fd32ecd5ae4c57f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Chat.ChatManager.delete(id: Swift.Int, _: () -&gt; ()) -&gt; ()"
+                  moduleName = "Chat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bdriahtalaat/Desktop/my%20programs/Xcode/Chat/Chat/Model/ChatManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "24"
+                  endingLineNumber = "24"
+                  offsetFromSymbolStart = "80">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CD006A9E-D07E-42AF-83E3-C52066F07793"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/Controller/SignUpViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
+            landmarkName = "persisImageToStorage()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

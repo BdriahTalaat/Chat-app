@@ -11,7 +11,7 @@ import FirebaseFirestoreSwift
 struct Conversation: Identifiable, Codable {
    
     @DocumentID var docID: String?
-    let id = UUID()
+    var id = UUID()
     let users: [String]
     var messages: [Message] = []
     var lastMessage: Message? {
@@ -20,21 +20,9 @@ struct Conversation: Identifiable, Codable {
 }
 
 struct Message: Identifiable, Codable {
-    let id = UUID()
+    var id = UUID()
     let text: String
     let senderID: String
     let timestamp: Date
 }
-
-//struct Users {
-//    let me : ChatUser
-//    let other : ChatUser
-//}
-//
-//struct ChatUser {
-//    let uid : String
-//    let email : String
-//    let profilrImage : String
-//    let fullName : String
-//}
 

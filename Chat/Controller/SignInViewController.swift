@@ -38,6 +38,12 @@ class SignInViewController: UIViewController {
     }
     
     //MARK: ACTION
+    
+    @IBAction func forgetPasswordButton(_ sender: Any) {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "ResetPasswordViewController") as! ResetPasswordViewController
+        present(vc, animated: false)
+    }
+    
     @IBAction func signInButtom(_ sender: Any) {
         
         if let email = emailTextField.text{

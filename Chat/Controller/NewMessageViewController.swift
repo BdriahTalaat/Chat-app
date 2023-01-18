@@ -58,13 +58,13 @@ extension NewMessageViewController : UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedIndex = ChatManager.shared.users[indexPath.row]
-        
+        print(selectedIndex.fullName)
         ChatManager.shared.create(withID: selectedIndex.uid) {
             let conversation = ChatManager.shared.conversations.first(where: { $0.users.contains(selectedIndex.uid) })
-            
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
             
             vc.conversation = conversation
+            
             DispatchQueue.main.async {
                 self.present(vc, animated: false)
             }

@@ -44,7 +44,7 @@ class UsersViewController: UIViewController {
         newView.setCircler(value: 2, View: newView)
         newView.setShadow(View: newView, shadowRadius: 8, shadowOpacity: 0.5, shadowOffsetWidth: 2, shadowOffsetHeight: 2)
 
-        
+        listUsersTableView.allowsSelectionDuringEditing = true
     }
     
     //MARK: ACTIONS
@@ -118,15 +118,16 @@ extension UsersViewController : UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as! UserTableViewCell
         let data = ChatManager.shared.conversations[indexPath.row]
+        
         let otherID: String = data.users.filter { $0 != FirebaseManager.shared.auth.currentUser!.uid }.first!
         var userData: ChatUser? = ChatManager.shared.getUserData(uid: otherID)
         let today = Date()
         
-        cell.dateLabel.text = "\(Calendar.current.component(.hour, from: today)) : \(Calendar.current.component(.minute, from: today)) "
+        cell.dateLabel.text = "\(Calendar.current.component(.hour, from: data.lastMessage!.timestamp)) : \(Calendar.current.component(.minute, from: data.lastMessage!.timestamp)) "
         cell.nameLabel.text = userData?.fullName ?? "nil"
         cell.userImage.setImageFromStringURL(stringURL: userData!.profileImage)
         cell.userImage.setImageCircler(image: cell.userImage)
-        
+        cell.lastMessageLabel.text = data.lastMessage?.text
         return cell
     }
     
@@ -147,5 +148,37 @@ extension UsersViewController : UITableViewDelegate,UITableViewDataSource {
             self.present(vc, animated: false)
         }
         
+    }
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        ChatManager.shared.conversations.swapAt(sourceIndexPath.row, destinationIndexPath.row)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let deleteAction = UIContextualAction(style: UIContextualAction.Style.destructive, title: "Delete") { action, view,completionHandler in
+            
+            let alert = UIAlertController(title: "Delete", message: "do you want delete this chat", preferredStyle: UIAlertController.Style.alert)
+            let YesAction = UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive) { action in
+               
+                ChatManager.shared.delete(id: indexPath.row){
+                    self.listUsersTableView.reloadData()
+                }
+            }
+            
+            let cencelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+            
+            alert.addAction(YesAction)
+            alert.addAction(cencelAction)
+            self.present(alert, animated: false)
+            
+            completionHandler(true)
+        }
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
 }

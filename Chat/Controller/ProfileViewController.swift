@@ -12,12 +12,23 @@ class ProfileViewController: UIViewController{
 
     //MARK: OUTLETS
     @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var userNameLabel: UILabel!
+    
+    //MARK: VARIABLE
+    
+    
+    
+    
     
     //MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let uid = FirebaseManager.shared.auth.currentUser?.uid
         profileImage.layer.cornerRadius = profileImage.frame.height / 2
+        //userNameLabel.text = uid.
     }
     //MARK: FUNCTIONS
     func signOut(){
@@ -70,6 +81,10 @@ class ProfileViewController: UIViewController{
         present(changePhotoAlert, animated: true)
     }
     
+    @IBAction func editButton(_ sender: Any) {
+
+        ChatManager.shared.updateData(name: nameTextField.text!, email: emailTextField.text!)
+    }
 }
 //MARK: EXTENTION
 extension ProfileViewController : UIImagePickerControllerDelegate & UINavigationControllerDelegate{

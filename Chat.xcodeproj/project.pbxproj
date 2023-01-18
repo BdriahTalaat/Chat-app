@@ -57,12 +57,12 @@
 		6931D8E2296074F70076CBC0 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6931D8E1296074F70076CBC0 /* ChatTableViewCell.swift */; };
 		693DF1DA296063B200DA3396 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693DF1D9296063B200DA3396 /* UserTableViewCell.swift */; };
 		695D090C295F58C10037A31C /* convert image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695D090B295F58C10037A31C /* convert image.swift */; };
-		697FEB462960A9A90011EB31 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697FEB452960A9A90011EB31 /* ChatMessage.swift */; };
+		698CE08729772285002CD737 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698CE08629772285002CD737 /* ResetPasswordViewController.swift */; };
 		699C14EA295C0E78005B41CF /* ChatUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699C14E9295C0E78005B41CF /* ChatUser.swift */; };
+		699EBB61296BF62B007AB230 /* Chat Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699EBB60296BF62B007AB230 /* Chat Message.swift */; };
 		69BF009D295F69F500DC2BAB /* NewMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BF009C295F69F500DC2BAB /* NewMessageViewController.swift */; };
 		69C1B195295F8D9F008FE353 /* NewUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C1B194295F8D9F008FE353 /* NewUserTableViewCell.swift */; };
 		69C1B19A295FA1E3008FE353 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C1B199295FA1E3008FE353 /* ChatViewController.swift */; };
-		69E97DEA2961D1F00032F756 /* Firebase conestants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E97DE92961D1F00032F756 /* Firebase conestants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,12 +88,12 @@
 		6931D8E1296074F70076CBC0 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		693DF1D9296063B200DA3396 /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		695D090B295F58C10037A31C /* convert image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "convert image.swift"; sourceTree = "<group>"; };
-		697FEB452960A9A90011EB31 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		698CE08629772285002CD737 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		699C14E9295C0E78005B41CF /* ChatUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUser.swift; sourceTree = "<group>"; };
+		699EBB60296BF62B007AB230 /* Chat Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Chat Message.swift"; sourceTree = "<group>"; };
 		69BF009C295F69F500DC2BAB /* NewMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageViewController.swift; sourceTree = "<group>"; };
 		69C1B194295F8D9F008FE353 /* NewUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUserTableViewCell.swift; sourceTree = "<group>"; };
 		69C1B199295FA1E3008FE353 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
-		69E97DE92961D1F00032F756 /* Firebase conestants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Firebase conestants.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +183,7 @@
 				6904AB692956FDED002D03A1 /* ProfileViewController.swift */,
 				69BF009C295F69F500DC2BAB /* NewMessageViewController.swift */,
 				69C1B199295FA1E3008FE353 /* ChatViewController.swift */,
+				698CE08629772285002CD737 /* ResetPasswordViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -199,11 +200,10 @@
 		6904AB6B295765D8002D03A1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				6904AB6C29576601002D03A1 /* FirebaseManager.swift */,
+				699EBB60296BF62B007AB230 /* Chat Message.swift */,
 				69228714296574A30097B7A8 /* ChatManager.swift */,
+				6904AB6C29576601002D03A1 /* FirebaseManager.swift */,
 				699C14E9295C0E78005B41CF /* ChatUser.swift */,
-				697FEB452960A9A90011EB31 /* ChatMessage.swift */,
-				69E97DE92961D1F00032F756 /* Firebase conestants.swift */,
 				69228712296572B80097B7A8 /* Conversation.swift */,
 			);
 			path = Model;
@@ -331,11 +331,11 @@
 				6904AB5C295648D9002D03A1 /* MainViewController.swift in Sources */,
 				6904AB6D29576601002D03A1 /* FirebaseManager.swift in Sources */,
 				695D090C295F58C10037A31C /* convert image.swift in Sources */,
+				698CE08729772285002CD737 /* ResetPasswordViewController.swift in Sources */,
 				6904AB562956487A002D03A1 /* Make circler.swift in Sources */,
 				69C1B195295F8D9F008FE353 /* NewUserTableViewCell.swift in Sources */,
 				6931D8E2296074F70076CBC0 /* ChatTableViewCell.swift in Sources */,
 				6904AB6A2956FDED002D03A1 /* ProfileViewController.swift in Sources */,
-				69E97DEA2961D1F00032F756 /* Firebase conestants.swift in Sources */,
 				6904AB6029564D13002D03A1 /* UsersViewController.swift in Sources */,
 				69BF009D295F69F500DC2BAB /* NewMessageViewController.swift in Sources */,
 				6904AB6629565987002D03A1 /* TabBarController.swift in Sources */,
@@ -346,7 +346,7 @@
 				6904AB582956489A002D03A1 /* SignInViewController.swift in Sources */,
 				699C14EA295C0E78005B41CF /* ChatUser.swift in Sources */,
 				6904AB10295645DC002D03A1 /* Chat.xcdatamodeld in Sources */,
-				697FEB462960A9A90011EB31 /* ChatMessage.swift in Sources */,
+				699EBB61296BF62B007AB230 /* Chat Message.swift in Sources */,
 				69228713296572B80097B7A8 /* Conversation.swift in Sources */,
 				6904AB06295645DC002D03A1 /* AppDelegate.swift in Sources */,
 				6904AB08295645DC002D03A1 /* SceneDelegate.swift in Sources */,

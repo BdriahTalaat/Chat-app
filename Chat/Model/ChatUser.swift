@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseFirestoreSwift
 import UIKit
 
 struct ChatUser : Codable {
@@ -13,4 +14,5 @@ struct ChatUser : Codable {
     let email : String
     let profileImage : String
     let fullName : String
+    @DocumentID var docID: String?
 }

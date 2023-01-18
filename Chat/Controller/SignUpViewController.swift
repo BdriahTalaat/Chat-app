@@ -126,7 +126,7 @@ class SignUpViewController: UIViewController {
         
         guard let imageData = self.userImage.image?.jpegData(compressionQuality: 0.5) else{ return }
         
-        ref.putData(imageData,metadata: nil){ metadata, error in
+        let upload = ref.putData(imageData, metadata: nil){ metadata, error in
             if let error = error{
                
                 let alert = UIAlertController.init(title: "Error", message: "\(error.localizedDescription)", preferredStyle: .alert)
@@ -144,7 +144,7 @@ class SignUpViewController: UIViewController {
                     alert.addAction(OkAction)
                     self.present(alert, animated: false)
                 }
-                print("success")
+                
                 guard let url = url else{ return }
                 self.storeUserInformation(imageProfileURL: url)
             }
@@ -171,6 +171,7 @@ class SignUpViewController: UIViewController {
 }
 //MARK: EXTENTION
 extension SignUpViewController : UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         let image = info [UIImagePickerController.InfoKey.editedImage] as! UIImage

@@ -13,6 +13,7 @@ class ChatTableViewCell: UITableViewCell {
     @IBOutlet weak var messageView: UIView!
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var messageTimeLabel: UILabel!
+    @IBOutlet weak var imageMessage: UIImageView!
     @IBOutlet weak var messageDateLabel: UILabel!
     
     var conversation: Conversation!
@@ -20,6 +21,8 @@ class ChatTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(messageFromOther), name: NSNotification.Name("messageFromOther"), object: nil)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -28,4 +31,13 @@ class ChatTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    @objc func messageFromOther(){
+
+        messageTimeLabel.isHidden = true
+        messageView.translatesAutoresizingMaskIntoConstraints = false
+        messageView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: 330).isActive = true
+        messageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8).isActive = true
+        messageView.backgroundColor = .darkGray
+        
+    }
 }
